@@ -9,4 +9,7 @@ i will be going through the following code along courses and projects.
 - Will add some courses as i go code along for the next 100 Days....Yay!
 
 ### Day 01: April 20, 2020
+- so i decided to start with Traversy media's Modern CSS & HTML. where we just basically went through basics of CSS divs,span,classes, ids, headings, paragraphs, forms, inputs etc.
+- Looking forward to dig into css section
+Link: https://github.com/eazyt/html
 
