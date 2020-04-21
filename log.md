@@ -13,6 +13,6 @@ i will be going through the following code along courses and projects.
 - Looking forward to dig into css section
 - Link: https://github.com/eazyt/html
 
-### Day 01: April 21, 2020
+### Day 02: April 21, 2020
 - day 02: did some basic intro to css, nothing heavy just selector, colors and background....there more though much more
 - Link: https://github.com/eazyt/html
