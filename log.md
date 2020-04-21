@@ -11,5 +11,8 @@ i will be going through the following code along courses and projects.
 ### Day 01: April 20, 2020
 - so i decided to start with Traversy media's Modern CSS & HTML. where we just basically went through basics of CSS divs,span,classes, ids, headings, paragraphs, forms, inputs etc.
 - Looking forward to dig into css section
-Link: https://github.com/eazyt/html
+- Link: https://github.com/eazyt/html
 
+### Day 01: April 21, 2020
+- day 02: did some basic intro to css, nothing heavy just selector, colors and background....there more though much more
+- Link: https://github.com/eazyt/html
