@@ -16,3 +16,7 @@ i will be going through the following code along courses and projects.
 ### Day 02: April 21, 2020
 - day 02: did some basic intro to css, nothing heavy just selector, colors and background....there more though much more
 - Link: https://github.com/eazyt/html
+
+### Day 03: April 22, 2020
+- day 03: some more of css goodies, push through couple of nice topics today. 
+- Link: https://github.com/eazyt/html
