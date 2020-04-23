@@ -20,3 +20,7 @@ i will be going through the following code along courses and projects.
 ### Day 03: April 22, 2020
 - day 03: some more of css goodies, push through couple of nice topics today. 
 - Link: https://github.com/eazyt/html
+
+### Day 04: April 23, 2020
+- day04: did some form styling today as the last part of css intro. next we start building nice.
+- Link: https://github.com/eazyt/html
