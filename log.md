@@ -24,3 +24,7 @@ i will be going through the following code along courses and projects.
 ### Day 04: April 23, 2020
 - day04: did some form styling today as the last part of css intro. next we start building nice.
 - Link: https://github.com/eazyt/html
+
+### Day 05: April 24, 2020
+- day 05: went through material i did for the past week and did a revison.
+- Link: https://github.com/eazyt/html
