@@ -28,3 +28,7 @@ i will be going through the following code along courses and projects.
 ### Day 05: April 24, 2020
 - day 05: went through material i did for the past week and did a revison.
 - Link: https://github.com/eazyt/html
+
+### Day 06: April 27, 2020
+- day 05: today started a project based hotel. its based on CSS3 and HTML5
+- Link: https://github.com/eazyt/hotel
