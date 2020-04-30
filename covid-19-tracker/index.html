@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Plotting COVID-19</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <link rel="stylesheet" href="css/style.css" />
+    <!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet"/> -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fontawesome-iconpicker/3.2.0/js/fontawesome-iconpicker.min.js"> -->
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.13.0/css/all.css"
+    />
+    <!-- MDBootstrap flags -->
+    <link href="css-flags/addons/flag.min.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.6/css/flag-icon.min.css"
+    />
+  </head>
+
+  <body>
+    <div class="wrapper">
+      <!-- Navigation -->
+      <header>
+        <nav class="main-nav">
+          <ul>
+            <li><a href="#">Home</a></li>
+            <li>
+              <a
+                href="https://news.google.com/search?q=covid-19&hl=en-ZA&gl=ZA&ceid=ZA:en"
+                target="_blank"
+                rel="noopener noreferrer"
+                >News</a
+              >
+            </li>
+            <li><a href="#">Global Stats</a></li>
+            <li><a href="#">Map</a></li>
+            <li><a href="#">Place of interest</a></li>
+          </ul>
+        </nav>
+        <h2 class="main-header">
+          <i class="south africa flag"></i>SA - COVID-19 tracker
+        </h2>
+      </header>
+      
+      <!-- stats here -->
+      <script>
+        const api_url = "https://api.covid19api.com/summary";
+        // const api_url = 'https://api.covid19api.com/total/country/south-africa/status/confirmed';
+        async function getStats() {
+          const response = await fetch(api_url);
+          const data = await response.json();
+          // console.log(data);
+          //  const date = data.Date;
+          var date = data.Date;
+          date = new Date(date).toUTCString();
+          date = date
+            .split(" ")
+            .slice(0, 4)
+            .join(" ");
+
+          // global
+          const NewConfirmed = data.Global.NewConfirmed;
+          const TotalConfirmed = data.Global.TotalConfirmed;
+          const NewDeaths = data.Global.NewDeaths;
+          const TotalDeaths = data.Global.TotalDeaths;
+          const NewRecovered = data.Global.NewRecovered;
+          const TotalRecovered = data.Global.TotalRecovered;
+
+          // South Africa
+          const SA_NewConfirmed = data.Countries[204].NewConfirmed;
+          const SA_TotalConfirmed = data.Countries[204].TotalConfirmed;
+          const SA_NewDeaths = data.Countries[204].NewDeaths;
+          const SA_TotalDeaths = data.Countries[204].TotalDeaths;
+          const SA_NewRecovered = data.Countries[204].NewRecovered;
+          const SA_TotalRecovered = data.Countries[204].TotalRecovered;
+
+          // document.getElementById("GL_NewConfirmed").textContent = NewConfirmed;
+          // document.getElementById("GL_TotalConfirmed").textContent = TotalConfirmed;
+          // document.getElementById("GL_NewDeaths").textContent = NewDeaths;
+          // document.getElementById("GL_TotalDeaths").textContent = TotalDeaths;
+          // document.getElementById("GL_NewRecovered").textContent = NewRecovered;
+          // document.getElementById("GL_TotalRecovered").textContent = TotalRecovered;
+          // Country Stats
+          // document.getElementById("SA_NewConfirmed").textContent = NewConfirmed;
+          document.getElementById(
+            "SA_TotalConfirmed"
+          ).textContent = SA_TotalConfirmed;
+          // document.getElementById("SA_NewDeaths").textContent = NewDeaths;
+          document.getElementById(
+            "SA_TotalDeaths"
+          ).textContent = SA_TotalDeaths;
+          // document.getElementById("SA_NewRecovered").textContent = NewRecovered;
+          document.getElementById(
+            "SA_TotalRecovered"
+          ).textContent = SA_TotalRecovered;
+          document.getElementById("date").textContent = date;
+        }
+
+        getStats();
+      </script>
+      <!-- #################################################################################### -->
+      <!-- top section start here -->
+      <div class="top-section">
+        <!-- hello -->
+        <div class="snazzy-map">
+          <div id="map" class="map" style="width: 960px;height: 500px;"></div>
+          <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAjrCrVm7dolv6_lr3cpWFJqUqebGo15lQ"></script>
+          <script type="module">
+            import styles from "./styles.js";
+            const $map = document.querySelector("#map");
+            const map = new window.google.maps.Map($map, {
+              center: {
+                lat: 0,
+                lng: 0
+              },
+              zoom: 3,
+              styles
+            });
+            renderData();
+            async function getData() {
+              const response = await fetch(
+                "https://wuhan-coronavirus-api.laeyoung.endpoint.ainize.ai/jhu-edu/latest"
+              );
+              const data = await response.json();
+              return data;
+            }
+
+            function renderExtraData({
+              confirmed,
+              deaths,
+              recovered,
+              provincestate,
+              countryregion
+            }) {
+              return `
+                  <div>
+                      <p> <strong> ${provincestate} - ${countryregion}</strong></p>
+                      <p> confirmed: ${confirmed}</p>
+                      <p> deaths: ${deaths}</p>
+                      <p> recovered: ${recovered}</p>
+                      </div>
+                      `;
+            }
+
+            const popup = new window.google.maps.InfoWindow();
+            async function renderData() {
+              const data = await getData();
+              // console.log(data)
+              data.forEach(item => {
+                if (item.confirmed > 0) {
+                  const marker = new window.google.maps.Marker({
+                    position: {
+                      lat: item.location.lat,
+                      lng: item.location.lng
+                    },
+                    map
+                  });
+                  marker.addListener("click", () => {
+                    popup.setContent(renderExtraData(item));
+                    popup.open(map, marker);
+                  });
+                }
+              });
+            }
+          </script>
+        </div>
+        <div class="display-stats">
+          <div class="right-div">
+            <div class="content" id="box1">
+              <header>
+                <nav id="navbar">
+                  <h1>TotalConfirmed Cases1</h1>
+                </nav>
+              </header>
+            </div>
+            <div class="content" id="box2">
+              <header>
+                <nav id="navbar">
+                  <h1>TotalConfirmed Cases2</h1>
+                </nav>
+              </header>
+            </div>
+          </div>
+
+          <div class="left-div">
+            <div class="content1" id="box3">
+              <header>
+                <nav id="navbar">
+                  <h1>TotalConfirmed Cases3</h1>
+                </nav>
+              </header>
+            </div>
+            <div class="content1" id="box4">
+              <header>
+                <nav id="navbar">
+                  <h1>TotalConfirmed Cases4</h1>
+                </nav>
+              </header>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <br> -->
+      <!-- <div class="clr"></div> -->
+      <!-- #################################################################################### -->
+      <!-- middle section start here -->
+      <section id="map-n-stats">
+        <!-- section of the canvas -->
+        <div class="line-graph box">
+          <canvas id="myChart" height="400px"></canvas>
+
+          <script src="../jquery-3.4.1.min.js"></script>
+
+          <!-- graph start here -->
+          <script>
+            const xlabels = [];
+            const ylabels = [];
+            let ylabels1 = [];
+            let newSideDate1 = [];
+
+
+
+            chartIt();
+
+            async function chartIt() {
+              await getAll();
+              await getRecoveredStats();
+              const ctx = document.getElementById("myChart").getContext("2d");
+              const myChart = new Chart(ctx, {
+                type: "line",
+                data: {
+                  labels: xlabels,
+                  type: "line",
+                  defaultFontFamily: "Montserrat",
+                  datasets: [
+                    {
+                      label: "TotalConfirmed Cases",
+                      data: ylabels,
+                      backgroundColor: "transparent",
+                      borderColor: "rgba(220,53,69,0.75)",
+                      borderWidth: 3,
+                      pointStyle: "none",
+                      pointRadius: 5,
+                      pointBorderColor: "transparent",
+                      pointBackgroundColor: "rgba(220,53,69,0.75)"
+                    },
+                    {
+                      label: "Total Recovered",
+                      data: ylabels1,
+                      backgroundColor: "transparent",
+                      borderColor: "rgba(220,53,69,0.75)",
+                      borderWidth: 3,
+                      pointStyle: "circle",
+                      pointRadius: 5,
+                      pointBorderColor: "transparent",
+                      pointBackgroundColor: "rgba(220,53,69,0.75)"
+                    }
+                  ]
+                },
+                options: {
+                  responsive: true,
+
+                  tooltips: {
+                    mode: "index",
+                    titleFontSize: 12,
+                    titleFontColor: "#000",
+                    bodyFontColor: "#000",
+                    backgroundColor: "#fff",
+                    titleFontFamily: "Montserrat",
+                    bodyFontFamily: "Montserrat",
+                    cornerRadius: 3,
+                    intersect: false
+                  },
+                  legend: {
+                    display: false,
+                    labels: {
+                      usePointStyle: true,
+                      fontFamily: "Montserrat"
+                    }
+                  },
+                  scales: {
+                    xAxes: [
+                      {
+                        display: true,
+                        gridLines: {
+                          display: false,
+                          drawBorder: false
+                        },
+                        scaleLabel: {
+                          display: false,
+                          labelString: "Month"
+                        }
+                      }
+                    ],
+                    yAxes: [
+                      {
+                        display: true,
+                        gridLines: {
+                          display: true,
+                          drawBorder: true
+                        },
+                        scaleLabel: {
+                          display: true,
+                          labelString: "Cases"
+                        }
+                      }
+                    ]
+                  },
+                  title: {
+                    display: true,
+                    text: "Total Confirmed cases"
+                  }
+                }
+              });
+            }
+
+
+            async function getAll() {
+              const response = await fetch(
+                "https://api.covid19api.com/total/country/south-africa/status/confirmed"
+              );
+              const data = await response.json();
+              console.log(data);
+              for (var i = 0; i < data.length; i++) {
+                var date = data[i].Date;
+                date = new Date(date).toUTCString();
+                date = date
+                  .split(" ")
+                  .slice(0, 4)
+                  .join(" ");
+                var year = date;
+                xlabels.push(year);
+                var cases = data[i].Cases;
+                ylabels.push(cases);
+                // console.log(year, cases);
+                // console.log(data);
+              }
+              // console.log(data.length);
+            }
+            console.log(xlabels);
+
+
+
+
+            async function getRecoveredStats() {
+            const response = await fetch(
+              "https://disease.sh/v2/historical/South%20Africa?lastdays=all"
+            );
+            const data1 = await response.json();
+            const results = data1.timeline.recovered;
+            console.log(results);
+            const entries = Object.entries(results);
+            console.log(entries);
+            // newBarValue for the diff function
+            // let newBarValue = [];
+            for (var i = 0; i < entries.length; i++) {
+              ylabels1.push(entries[i][1]);
+              // sorting and arranging the date from response
+              var date = entries[i][0];
+              date = new Date(date).toUTCString();
+              date = date
+                .split(" ")
+                .slice(1, 4)
+                .join(" ");
+              newSideDate.push(date);
+            }
+
+            // ylabels1.push(val);
+          }
+
+          console.log(ylabels1);
+          console.log(newSideDate1);
+          </script>
+        </div>
+
+        <!-- bar graph GOES HERE -->
+        <div class="bar-graph-up box">
+          <canvas id="myChart1" height="400px"></canvas>
+
+          <script src="../jquery-3.4.1.min.js"></script>
+
+          <!-- Daily Cases graph-up start here -->
+          <script>
+            let newBar = [];
+            let newDate = [];
+            console.log(newDate)
+            console.log(newBar)
+
+
+            
+            chartIt();
+            
+            async function chartIt() {
+              await getStats();
+              const ctx = document.getElementById("myChart1").getContext("2d");
+              const myChart = new Chart(ctx, {
+                type: "bar",
+                data: {
+                  labels: newDate,
+                  type: "bar",
+                  defaultFontFamily: "Montserrat",
+                  datasets: [
+                    {
+                      label: "Daily New Confirmed Cases",
+                      data: newBar[0],
+                      backgroundColor: "transparent",
+                      borderColor: "rgba(220,53,69,0.75)",
+                      borderWidth: 3,
+                      pointStyle: "circle",
+                      pointRadius: 5,
+                      pointBorderColor: "transparent",
+                      pointBackgroundColor: "rgba(220,53,69,0.75)",
+                      fill: true
+                    }
+                  ]
+                }
+              });
+            }
+
+            async function getStats() {
+              const response = await fetch(
+                "https://corona.lmao.ninja/v2/historical/South%20Africa"
+              );
+              const data = await response.json();
+              const results = data.timeline.cases;
+              const entries = Object.entries(results);
+              // newBarValue for the diff function
+              let newBarValue = [];
+              for (var i = 0; i < entries.length; i++) {
+                newBarValue.push(entries[i][1]);
+                // sorting and arranging the date from response
+                var date = entries[i][0];
+                date = new Date(date).toUTCString();
+                date = date
+                  .split(" ")
+                  .slice(1, 4)
+                  .join(" ");
+                newDate.push(date);
+
+
+              }
+              // function to get the difference between consective numbers in an array
+              function diff(ary) {
+                var newA = [];
+                for (var i = 1; i < ary.length; i++)
+                  newA.push(ary[i] - ary[i - 1]);
+                return newA;
+              }
+              // newBar is an Array of cases per day
+              // console.log(diff(newBarValue));
+              const val = diff(newBarValue);
+              // pushing newBar to Global variable to be accessed by chartjs
+              newBar.push(val);
+            }
+
+            console.log(newBar);
+            console.log(newDate);
+            // console.log(newBarValue);
+            // getStats();
+          </script>
+        </div>
+      <!-- #################################################################################################### -->
+      <!-- bar side graph here -->
+      <div class="bar-graph-side box">
+
+        <canvas id="myBarChart" height="400px"></canvas>
+
+        <script src="../jquery-3.4.1.min.js"></script>
+    
+        <script>
+          let newSideBar = [];
+          let newSideDate = [];
+          myBarChart();
+            async function myBarChart() {
+              await getBarStats();
+                const ctx = document.getElementById("myBarChart").getContext("2d");
+                const myBarChart = new Chart(ctx, {
+                    type: 'horizontalBar',
+                    data: {
+                        labels: newSideDate,
+                        datasets: [{
+                            data: newSideBar[0],
+                            label: "Daily Deaths Cases",
+                            borderColor: "#458af7",
+                            backgroundColor: '#458af7',
+                            fill: false
+                        }]
+                    },
+                    options: {
+                        title: {
+                            display: false,
+                            text: 'World population per region (in millions)'
+                        }
+                    }
+                });
+            }
+
+          async function getBarStats() {
+            const response = await fetch(
+              "https://corona.lmao.ninja/v2/historical/South%20Africa"
+            );
+            const data = await response.json();
+            const results = data.timeline.deaths;
+            const entries = Object.entries(results);
+            console.log(entries);
+            // newBarValue for the diff function
+            let newBarValue = [];
+            for (var i = 0; i < entries.length; i++) {
+              newBarValue.push(entries[i][1]);
+              // sorting and arranging the date from response
+              var date = entries[i][0];
+              date = new Date(date).toUTCString();
+              date = date
+                .split(" ")
+                .slice(1, 4)
+                .join(" ");
+              newSideDate.push(date);
+            }
+            // function to get the difference between consective numbers in an array
+            function diff(ary) {
+              var newA = [];
+              for (var i = 1; i < ary.length; i++)
+                newA.push(ary[i] - ary[i - 1]);
+              return newA;
+            }
+            // newBar is an Array of cases per day
+            // console.log(diff(newBarValue));
+            const val = diff(newBarValue);
+            // pushing newBar to Global variable to be accessed by chartjs
+            newSideBar.push(val);
+          }
+
+          console.log(newBar);
+          console.log(newDate);
+
+        </script>
+      </div>
+      </section>
+      <br />
+      <!-- <div class="clr"></div> -->
+      <!-- #################################################################################### -->
+      <!-- bottom section start here -->
+      <section id="bottom-section">
+            <!-- ROLLING TABLE GOES HERE -->
+            <!-- API for table data -->
+            <script>
+              fetch("https://api.covid19api.com/summary").then(response => {
+                response.json().then(data => {
+                  // console.log(data);
+                  if (data.Countries.length > 0) {
+                    var stat = "";
+                    data.Countries.forEach(item => {
+                      stat += "<tr>";
+                      stat += "<td>" + item.Country + "</td>";
+                      stat += "<td>" + item.NewConfirmed + "</td>";
+                      stat += "<td>" + item.TotalConfirmed + "</td>";
+                      stat += "<td>" + item.NewDeaths + "</td>";
+                      stat += "<td>" + item.TotalDeaths + "</td>";
+                      stat += "<td>" + item.NewRecovered + "</td>";
+                      stat += "<td>" + item.TotalRecovered + "</td></tr>";
+                    });
+                    document.getElementById("data").innerHTML = stat;
+                  }
+                });
+              });
+            </script>
+
+            <!-- table data starts here -->
+            <div id="table-data" class="bottom">
+              <table class="table table-stripped">
+                <thead>
+                  <tr>
+                    <th>Country</th>
+                    <th>NewConfirmed</th>
+                    <th>TotalConfirmed</th>
+                    <th>NewDeaths</th>
+                    <th>TotalDeaths</th>
+                    <th>NewRecovered</th>
+                    <th>TotalRecovered</th>
+                  </tr>
+                </thead>
+                <tbody id="data"></tbody>
+              </table>
+            </div>
+
+            <!-- NEWS PIE CHART GOES HERE -->
+            <div id="pie-chart" class="bottom">
+              <h1>pie chart</h1>
+              <canvas id="myPieChart"></canvas>
+
+              <script src="../jquery-3.4.1.min.js"></script>
+              <script>
+
+                const USA_DEATHS = [];
+                const UK_DEATHS = [];
+                const GER_DEATHS = [];
+                const ITALY_DEATHS = [];
+
+                myPieChart();
+                async function myPieChart() {
+                  await getPieStats();
+                  const ctx = document
+                    .getElementById("myPieChart")
+                    .getContext("2d");
+                    let colorHex = ['#FB#640', '#EFCA08', '#43AABB', '#253D5B']
+                  const myPieChart = new Chart(ctx, {
+                    type: "pie",
+                    data: {
+                      // labels: countryName,
+                      datasets: [{
+                          data: [USA_DEATHS, UK_DEATHS, GER_DEATHS, ITALY_DEATHS],
+                          // data: [10, 30, 40, 20],
+                          // label: "Total Deaths",
+                          // borderColor: "#458af7",
+                          backgroundColor: colorHex
+                          // fill: false
+                        }],
+                        labels: ['USA', 'UK', 'GER', 'ITALY'],
+                        // labels: [countryName]
+                    },
+                    // options: {
+                    //   title: {
+                    //     display: true,
+                    //     text: "World population per region (in millions)"
+                    //   }
+                    // }
+                  });
+                }
+          
+                
+
+          
+                async function getPieStats() {
+          
+                  const response = await fetch('https://api.covid19api.com/summary');
+                  const data = await response.json();
+                  console.log(data)
+                  const countries = data.Countries;
+                  console.log(countries)
+                  const usa_deaths = countries[233].TotalDeaths;
+                  USA_DEATHS.push(usa_deaths);
+                  console.log(usa_deaths)
+                  const uk_deaths = countries[232].TotalDeaths;
+                  UK_DEATHS.push(uk_deaths);
+
+                  const germany_deaths = countries[81].TotalDeaths;
+                  GER_DEATHS.push(germany_deaths);
+
+                  const italy_deaths = countries[108].TotalDeaths;
+                  ITALY_DEATHS.push(italy_deaths);
+
+                  
+                }
+          
+                getPieStats();
+                console.log(USA_DEATHS)
+              // </script>
+              <!-- <script>
+
+                let newPieTotalConfirmed = [];
+                let newPieTotalDeaths = [];
+        
+                // const api_url = 'https://api.covid19api.com/summary';
+      
+                async function getPieStats(){
+                    const response = await fetch('https://api.covid19api.com/summary');
+                    const data = await response.json();
+                    countries = data.Countries;
+        
+                    for (var i = 0; i < countries.length; i++) {
+                      
+                      const pieDeath = countries[i].TotalDeaths;
+                      const pieConfirmedCases = countries[i].TotalConfirmed;
+        
+                      newPieTotalConfirmed.push(pieDeath);
+                      newPieTotalDeaths.push(pieConfirmedCases);
+                    }
+                }
+                
+                getPieStats();
+                console.log(newPieTotalConfirmed)
+                console.log(newPieTotalDeaths)
+              </script> -->
+            </div>
+      </section>
+      <br />
+      <!-- <div class="clr"></div> -->
+      <!-- #################################################################################### -->
+      <!-- footer start here -->
+      <footer>
+        <div class="footer-social-links">
+          <h2>social media</h2>
+          <ul class="social-links-list">
+            <li>
+              <a
+                href="https://www.facebook.com"
+                class="facebook"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fab fa-facebook  fa-2x"></i>
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.twitter.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="twitter"
+              >
+                <i class="fab fa-twitter fa-2x"></i>
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.Instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="instagram"
+              >
+                <i class="fab fa-instagram fa-2x"></i>
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="linkedin"
+              >
+                <i class="fab fa-linkedin fa-2x"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <p>&copy; 2020 created by Eazy_TSA</p>
+      </footer>
+    </div>
+
+    <!-- scroll animation here -->
+    <script type="text/javascript">
+      function ScrollDiv() {
+        if (
+          document.getElementById("table-data").scrollTop <
+          document.getElementById("table-data").scrollHeight -
+            document.getElementById("table-data").offsetHeight
+        ) {
+          -1;
+          document.getElementById("table-data").scrollTop =
+            document.getElementById("table-data").scrollTop + 1;
+        } else {
+          document.getElementById("table-data").scrollTop = 0;
+        }
+      }
+
+      setInterval(ScrollDiv, 50);
+    </script>
+  </body>
+</html>

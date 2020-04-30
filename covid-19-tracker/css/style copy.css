@@ -1,0 +1,153 @@
+
+/* body reset */
+/* * is a selector for everything on the page */
+*{
+    margin: 0;
+    padding: 0;
+    /* box-sizing  for padding not to affect the width */
+    box-sizing: border-box;
+}
+/* utility class for clearing floats */
+.clr{
+    clear: both;
+}
+
+/* Element Selector */
+body{
+    background-color: #ccc;
+    /* special font from google */
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+    /* default size is 16px */
+    font-size: 18px;
+    line-height: 1.3em;
+
+}
+/* Navigation */
+.main-nav ul {
+    display: grid;
+    grid-gap: 20px;
+    padding: 0;
+    list-style: none;
+    /* grid-template-columns: 1fr 1fr 1fr 1fr 1fr;  */
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.main-nav a {
+    background: var(--primary);
+    display: block;
+    text-decoration: none;
+    padding: 0.8rem;
+    text-align: center;
+    color: var(--dark);
+    text-transform: uppercase;
+    font-size: 1.1rem;
+    box-shadow: var(--shadow);
+}
+
+.main-nav a:hover {
+    background: var(--dark);
+    color: var(--light);
+}
+.infected {
+    background: var(--primary);
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    box-shadow: var(--shadow);
+    padding: 1.5rem;
+}
+/* .infected{
+    float: left;
+    width: 100%;
+    border: solid 2px;
+    text-align: center;
+    border-radius: 0px;
+    /* display: flex; */
+    border-bottom: none;
+} */
+
+.deaths{
+    float: right;
+    width: 50%;
+    border: solid 2px;
+    text-align: center;
+    border-radius: 0px;
+}
+.recovered{
+    float: right;
+    width: 50%;
+    border: solid 2px;
+    text-align: center;
+    border-radius: 0px;
+    /* display: flex; */
+}
+.graph{
+    border: none;
+    /* width: 686px; */
+}
+.clr{
+    clear: both;
+}
+.main-header{
+    text-align: left;
+}
+.main-nav{
+    text-align: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    background: #4c6ca0;
+    border-radius: 5px;
+    overflow: auto;
+  
+}
+.nav li a{
+    color: violet;
+    text-align: center;
+  
+}
+
+.footer-social-links {
+    text-align: center;
+
+
+}
+ul .social-links-list {
+
+}
+
+li {
+    margin-right: 25px;
+    display: inline-block;
+}
+
+table, th, td {
+    border: 1px solid black;
+    font-size: small;
+    padding: 0;
+    margin: 0;
+  }
+
+a {
+    color: dark-gray;
+}
+.instagram:hover {
+    color: #e95950;
+}
+.facebook:hover {
+    color: rgb(66, 103, 178);
+}
+.twitter:hover {
+    color: rgb(56, 161, 243);
+}
+.google:hover {
+    color: rgb(221, 75, 57);
+}
+.linkedin:hover {
+    color: rgb(0, 119, 181);
+}
+
+/* .graph{
+    width: 400px;
+    height: 400px;
+} */
