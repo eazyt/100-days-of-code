@@ -32,3 +32,11 @@ i will be going through the following code along courses and projects.
 ### Day 06: April 27, 2020
 - day 05: today started a project based hotel. its based on CSS3 and HTML5
 - Link: https://github.com/eazyt/hotel
+
+### Day 07: April 29, 2020
+Day 08: CSS3 and HTML5 - added few features on project.  #100DaysOfCode
+- Link: https://github.com/eazyt/hotel
+
+### Day 08: April 30, 2020
+Day 08: CSS3 and HTML5 - added few features on project.  #100DaysOfCode
+https://github.com/eazyt/covid-19-tracker
