@@ -39,4 +39,8 @@ Day 08: CSS3 and HTML5 - added few features on project.  #100DaysOfCode
 
 ### Day 08: April 30, 2020
 Day 08: CSS3 and HTML5 - added few features on project.  #100DaysOfCode
-https://github.com/eazyt/covid-19-tracker
+- Link: https://github.com/eazyt/covid-19-tracker
+
+### Day 09: May 01, 2020
+Day 09: revisted the hotel project for media queries.  #100DaysOfCode
+- Link: https://github.com/eazyt/hotel
