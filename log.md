@@ -42,5 +42,9 @@ Day 08: CSS3 and HTML5 - added few features on project.  #100DaysOfCode
 - Link: https://github.com/eazyt/covid-19-tracker
 
 ### Day 09: May 01, 2020
-Day 09: revisted the hotel project for media queries.  #100DaysOfCode
+Day 09: revisited the hotel project for media queries.  #100DaysOfCode
 - Link: https://github.com/eazyt/hotel
+
+### Day 10: May 03, 2020
+Day 10: started a project based on flex grid, rem & media queries.  #100DaysOfCode
+- Link: https://github.com/eazyt/smart-buildings
