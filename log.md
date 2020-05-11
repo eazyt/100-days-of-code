@@ -48,3 +48,25 @@ Day 09: revisited the hotel project for media queries.  #100DaysOfCode
 ### Day 10: May 03, 2020
 Day 10: started a project based on flex grid, rem & media queries.  #100DaysOfCode
 - Link: https://github.com/eazyt/smart-buildings
+
+### Day 11: May 06, 2020
+Day 11: finished styling the site.....this was through flexbox...  #100DaysOfCode
+- Link: https://github.com/eazyt/smart-builings
+#HTML5 #CSS3 #sass #javascript #NodeJS  #React #PythonProgramming
+
+### Day 12: May 07, 2020
+Day 12: went through some mongodb and node.js tutorials.............  #100DaysOfCode
+- Link: https://github.com/eazyt/bootstarp4blog
+#HTML5 #CSS3 #sass #javascript #NodeJS  #React #PythonProgramming
+
+### Day 13: May 10, 2020
+Day 13: more css styling............  #100DaysOfCode
+- Link: https://github.com/eazyt/page-pagination-site #HTML5 #CSS3 #sass #javascript #NodeJS  #React #PythonProgramming
+
+### Day 14: May 12, 2020
+Day 14: playing around with css grid and ending creating a somewaht realistic site.  #100DaysOfCode
+#HTML5 #CSS3 #sass #javascript #NodeJS  #React #PythonProgramming
+
+### Day 15: May 13, 2020
+Day 15: the sass way....to note variables and dist.......and ofcourse it doesn't build  #100DaysOfCode
+#HTML5 #CSS3 #sass #javascript #NodeJS  #React #PythonProgramming
